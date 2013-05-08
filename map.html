@@ -7,6 +7,7 @@
       body { height: 100%; margin: 0; padding: 0 }
       #map-canvas { height: 100% }
     </style>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANhJ-meXJVURFhHrIm8Ecl6ThewmqObmg&sensor=false">
     </script>
@@ -41,6 +42,8 @@
                 map: map,
                 position: results[0].geometry.location
             });
+            $("#lat_input").val(results[0].geometry.location.lat());
+            $("#long_input").val(results[0].geometry.location.lng());
             alert("Location found: " + results[0].geometry.location);
           } else {
             alert("Geocode was not successful for the following reason: " + status);
@@ -54,6 +57,14 @@
     <div>
       <input id="address" type="textbox" value="Sydney, NSW">
       <input type="button" value="Encode" onclick="codeAddress()">
+    </div>
+    <div>
+      <h2>Lat/Long</h2>
+      <form method="post" action="/location">
+        <p>Latitude<br><input type="text" name="lat" id="lat_input"></p>
+        <p>Longitude<br><input type="text" name="lng" id="long_input"></p>
+        <input type="submit">
+      </form>
     </div>
   </body>
 </html>
