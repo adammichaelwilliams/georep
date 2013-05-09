@@ -21,10 +21,11 @@ class LocationHandler(tornado.web.RequestHandler):
   def post(self):
     lat = self.get_argument('lat')
     lng = self.get_argument('lng')
+    address = self.get_argument('address')
     data = json.load(urllib2.urlopen('http://congress.api.sunlightfoundation.com/legislators/locate?latitude='+lat+'&longitude='+lng+'&apikey='+congress_api_key))
     print json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
     pretty_data = json.dumps(data, sort_keys=True, indent=4, separators=(',', ': '))
-    self.render('location.html', result_data=data, pretty_data=pretty_data)
+    self.render('location.html', address=address, result_data=data['results'], pretty_data=pretty_data)
 
 settings = {
   'static_path': os.path.join(os.path.dirname(os.path.abspath(__file__)), ""),

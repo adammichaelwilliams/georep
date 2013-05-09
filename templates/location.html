@@ -2,8 +2,16 @@
 <html>
   <head><title>Representatives</title></head>
   <body>
-    <h1>Representatives for your Location</h1>
-    {{result_data}}
+    <h1>Representatives for {{address}}</h1>
+    {% for result in result_data %}
+      <h2>{{result['title']}}. {{result['first_name']}} {{result['last_name']}}</h2>
+      <ul>
+        <li><a href="{{result['website']}}">Website</a></li>
+        <li><a href="{{result['contact_form']}}">Contact</a></li>
+        <li><a href="http://www.fb.com/{{result['facebook_id']}}">Facebook</a></li>
+        <li><a href="http://www.twitter.com/{{result['twitter_id']}}">Twitter</a></li>
+      </ul>
+    {% end %}
     <h1>Pretty?</h1>
     {{pretty_data}}
   </body>

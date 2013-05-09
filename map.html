@@ -14,9 +14,11 @@
     <script type="text/javascript">
       var geocoder;
       var map;
+      var marker;
       function initialize() {
         geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng(39.774, -95.361);
+        var destlatlng = new google.maps.LatLng(37.775, -122.419);
         var mapOptions = {
           zoom: 4,
           center: latlng,
@@ -31,6 +33,10 @@
           disableDefaultUI: true
         }
         map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+        marker = new google.maps.Marker({
+                map: map,
+                position: destlatlng
+        });
       }
 
       function codeAddress() {
@@ -38,13 +44,15 @@
         geocoder.geocode( { 'address': address}, function(results, status) {
           if (status == google.maps.GeocoderStatus.OK) {
             //map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
+            marker.setMap(null);
+            marker = new google.maps.Marker({
                 map: map,
                 position: results[0].geometry.location
             });
             $("#lat_input").val(results[0].geometry.location.lat());
             $("#long_input").val(results[0].geometry.location.lng());
-            alert("Location found: " + results[0].geometry.location);
+            $("#address").val(results[0].formatted_address);
+            //$("#address").val("success");
           } else {
             alert("Geocode was not successful for the following reason: " + status);
           }
@@ -53,16 +61,15 @@
     </script>
   </head>
   <body onload="initialize()">
-   <div id="map-canvas" style="height: 600px;"></div>
+    <div id="map-canvas" style="height: 600px;"></div>
     <div>
-      <input id="address" type="textbox" value="Sydney, NSW">
-      <input type="button" value="Encode" onclick="codeAddress()">
     </div>
     <div>
-      <h2>Lat/Long</h2>
       <form method="post" action="/location">
-        <p>Latitude<br><input type="text" name="lat" id="lat_input"></p>
-        <p>Longitude<br><input type="text" name="lng" id="long_input"></p>
+        <input id="address" name="address" type="textbox" value="San Francisco, CA">
+        <input type="button" value="Encode" onclick="codeAddress()">
+        <p>Latitude<br><input type="text" name="lat" id="lat_input" value="37.775"></p>
+        <p>Longitude<br><input type="text" name="lng" id="long_input" value="-122.419"></p>
         <input type="submit">
       </form>
     </div>
