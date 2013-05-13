@@ -2,13 +2,33 @@
 <html>
   <head><title>Representatives</title></head>
   <body>
+    <!-- Facebook Javascript SDK -->
+      <div id="fb-root"></div>
+      <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=170198893144703";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- END - Facebook Javascript SDK -->
+
     <h1>Representatives for {{address}}</h1>
     {% for result in result_data %}
       <h2>{{result['title']}}. {{result['first_name']}} {{result['last_name']}}</h2>
+      {% if result['facebook_id'] %}
+      <img src="http://graph.facebook.com/{{result['facebook_id']}}/picture?type=large"></img>
+      <div class="fb-follow" data-href="https://www.facebook.com/{{result['facebook_id']}}"
+        data-show-faces="true" data-font="arial" data-width="450"></div>
+      <div class="fb-like" data-href="http://www.facebook.com/{{result['facebook_id']}}" 
+        data-send="false" data-width="450" data-show-faces="true"></div>
+      {% end %}
       <ul>
         <li><a href="{{result['website']}}">Website</a></li>
         <li><a href="{{result['contact_form']}}">Contact</a></li>
+        {% if result['facebook_id'] %}
         <li><a href="http://www.fb.com/{{result['facebook_id']}}">Facebook</a></li>
+        {% end %}
         <li><a href="http://www.twitter.com/{{result['twitter_id']}}">Twitter</a></li>
       </ul>
     {% end %}
